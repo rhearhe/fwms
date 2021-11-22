@@ -1,0 +1,100 @@
+<%- include("partials/header") -%>
+<script type="text/javascript">
+function displayForm(c) {
+       if (c.value == "1") {
+          document.getElementById("ngo").style.visibility = 'visible';
+            document.getElementById("restaurant").style.visibility = 'hidden';
+        } else if (c.value == "2") {
+            document.getElementById("ngo").style.visibility = 'hidden';
+            document.getElementById("restaurant").style.visibility = 'visible';
+        } else {}
+}
+function message(){
+  alert("Your registration has been sent for approval. \nClick OK to go back to home page.")
+}
+</script>
+<div class="registrationpage">
+  <div class="head container-fluid">
+    <nav class="hpnavbar navbar navbar-expand-lg navbar-dark bg-dark">
+      <a href="#" class="navbar-brand feedly">Feedly</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  <br><br>
+<form>
+    <label class="btn btn-dark"><input value="1" type="radio" name="formselector" onclick="displayForm(this)">NGO</label>
+    <label class="btn btn-dark"><input value="2" type="radio" name="formselector" onclick="displayForm(this)">Restaurant</label>
+</form>
+
+<div style="visibility:hidden" class="ngoReg" id="ngo">
+  <h1 style="margin:auto;">NGOs Registration Page</h1><br>
+  <div class="all_reg">
+    <form action="/register" method="POST">
+      <label style="text-align: left;"><b>NGO Name</b></label>
+      <input style="text-align: left;" type="text" name="name" placeholder="Enter NGO name">
+      <br><br>
+      <label style="text-align: left;"><b>NGO Type</b></label>
+      <input style="text-align: left;" type="text" name="type" placeholder="Enter the NGO Type">
+      <br><br>
+      <label style="text-align: left;"><b>Unique ID</b></label>
+      <input style="text-align: left;" type="text" name="uniqueid" placeholder="Enter the Unique ID">
+      <br><br>
+      <label style="text-align: left;"><b>Phone Number</b></label>
+      <input style="text-align: left;" type="text" name="phno" placeholder="Enter the contact number">
+      <br><br>
+      <label style="text-align: left;"><b>Email</b></label>
+      <input style="text-align: left;" type="email" name="email" placeholder="Enter the email ID">
+      <br><br>
+      <label style="text-align: left;"><b>Address(State, district, sector)</b></label>
+      <input style="text-align: left;" type="text" name="address" placeholder="Enter your HQ address">
+      <br><br>
+      <label style="text-align: left;"><b>Password</b></label>
+      <input style="text-align: left;" type="password" name="password" placeholder="Enter your desired password">
+      <br><br>
+      <label style="text-align: left;"><b>Upload documents(Official documents that verify the organization)</b></label>
+      <input style="text-align: left;" type="file" name="documents" placeholder="Upload the documents"><br><br></div>
+      <button style="text-align: center;" type="submit" class="btn btn-dark" onclick="message()">Register</button>
+    </form>
+  
+</div>
+<div style="visibility:hidden" class="restReg" id="restaurant">
+  <h1 style="margin:auto;">Restaurant Registration Page</h1><div class="restReg1">
+    <form action="/register1" method="POST">
+      <div class="all_reg">
+      <label style="text-align: left;"><b>Restaurant Name</b></label>
+      <input style="text-align: left;" type="text" name="name" placeholder="Enter Restaurant name">
+      <br><br>
+      <label style="text-align: left;"><b>FSSAI License Number</b></label>
+      <input style="text-align: left;" type="text" name="fssai" placeholder="Enter the FSSAI number">
+      <br><br>
+      <label style="text-align: left;"><b>Phone Number</b></label>
+      <input style="text-align: left;" type="text" name="phno" placeholder="Enter the phone number">
+      <br><br>
+      <label style="text-align: left;"><b>Email</b></label>
+      <input style="text-align: left;" type="text" name="email" placeholder="Enter the email id">
+      <br><br>
+      <label style="text-align: left;"><b>Address(State, District, Sector)</b></label>
+      <input style="text-align: left;" type="text" name="address" placeholder="Enter the address">
+      <br><br>
+      <label style="text-align: left;"><b>Password</b></label>
+      <input style="text-align: left;" type="password" name="password" placeholder="Enter the desired password">
+      <br><br>
+    
+      <label><b>Upload documents(Private Limited Registration, Partnership or LLP Registration, FSSAI Registration or License
+      According to the business turnover or business size and nature, Shop act License and GST Registration in India)</b></label>
+      <input type="file" name="documents" placeholder="Upload the documents"><br><br></div>
+      <button style="text-align: center;" type="submit" class="btn btn-dark" onclick="message()">Register</button>
+    </form>
+</div>
+</div>
+</div>
+
+<%- include("partials/footer") -%>
