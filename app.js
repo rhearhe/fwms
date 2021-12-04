@@ -78,12 +78,22 @@ app.get("/register", function (req, res) {
   res.render("register");
 });
 
-app.get("/ngo", function (req, res) {
+app.get("/ngo/:username", function (req, res) {
   rUser.find({ approved: true }, function (err, found) {
     if (err) {
       console.log(err);
     } else {
-      res.render("ngo", { doc: found, name: req.body.name });
+      res.render("ngo", { doc: found, ngo: req.params.username });
+    }
+  });
+});
+
+app.get("/order/:x/:y/:z", function (req, res) {
+  rUser.find({ fssai: req.params.z }, function (err, found) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("order", { doc: found, ngo: req.params.y, ord: req.params.x });
     }
   });
 });
@@ -99,12 +109,13 @@ app.get("/restaurant/:username", function (req, res) {
   });
 });
 
-app.get("/nprofile", function (req, res) {
-  nUser.find({ approved: false }, function (err, found) {
-    if (err) {
-      console.log(err);
-    } else {
+app.get("/nprofile/:username", function (req, res) {
+  const username = req.params.username;
+  nUser.find({ uniqueid: username }, function (err, found) {
+    if (!err) {
       res.render("nprofile", { doc: found });
+    } else {
+      console.log(err);
     }
   });
 });
@@ -243,7 +254,7 @@ app.post("/login", function (req, res) {
         if (foundUser) {
           bcrypt.compare(password, foundUser.password, function (err, result) {
             if (result === true) {
-              res.redirect("/ngo");
+              res.redirect("/ngo/" + username);
             }
           });
         } else {
@@ -276,15 +287,11 @@ app.post("/login1", function (req, res) {
   });
 });
 
-app.post("/ngo", function (req, res) {
-  var name1 = req.body.search;
-  rUser.find({ approved: true, name: name1 }, function (err, found) {
-    res.render("ngo", { doc: found, name: name1 });
-  });
-});
-
-app.post("/ngo/:z", function (req, res) {
+app.post("/ngo/:y/:z", function (req, res) {
   let order = req.body.order;
+  const ord = req.body.order;
+  const username = req.params.y;
+  const details = req.params.z;
   rUser.findOne({ fssai: req.params.z }, function (err, found) {
     if (!err) {
       const rest = found;
@@ -302,7 +309,7 @@ app.post("/ngo/:z", function (req, res) {
         { $set: { foodpackets: rest.foodpackets } },
         function (err, found) {
           if (err) console.log(err);
-          else res.redirect("/ngo");
+          else res.redirect("/order/" + ord + "/" + username + "/" + details);
         }
       );
     }
@@ -322,13 +329,6 @@ app.post("/restaurant", function (req, res) {
     found.foodpackets.push(foods);
     found.save();
     res.redirect("/");
-  });
-});
-
-app.post("/nprofile", function (req, res) {
-  var uid = req.body.search;
-  nUser.find({ approved: true, uniqueid: uid }, function (err, found) {
-    res.render("nprofile", { doc: found, uniqueid: uid });
   });
 });
 
